@@ -1,0 +1,10 @@
+NOTICE * :*** Forward DNS reply received.
+:irc.nac.net 001 bonk :Welcome to the Internet Relay Network bonk
+:irc.nac.net 002 bonk :Your host is irc.nac.net, running version 2.8/csircd-1.15beta10+lb20
+:irc.nac.net 376 bonk :End of /MOTD command.
+:irc.nac.net PONG irc.nac.net :bonk_AT
+:bonk_AT!~bonk@wursti.mausland.de JOIN :#juelich
+:irc.nac.net 366 bonk_AT #juelich :End of /NAMES list.
+:pope_!~ratzo@darkstar.mutantbrains.com PRIVMSG #juelich :Du bist kein echter Gegner für mein geschultes Hirn!
+:freak!~kack@wurst PRIVMSG #juelich :Üüöäöäößß
+
