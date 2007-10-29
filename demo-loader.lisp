@@ -1,8 +1,9 @@
 ; So lüppt das in clisp
 ; sollte nur leicht angepasst werden müssen
 
-(format t "~%~%~%~%~%~%~%~%~%~%~%~%Remember to adjust paths in demo.lisp!~%~%~%~%~%~%~%~%~%~%~%~%~%")
+#+clisp (format t "~%~%~%~%~%~%~%~%~%~%~%~%Remember to adjust paths in demo.lisp!~%~%~%~%~%~%~%~%~%~%~%~%~%")
 
+#+sbcl (progn #-sb-bsd-sockets (progn (format t "~%~%~%~%SBCL needs Socket Support!~%~%") (quit)))
 
 ; ASDF laden (bei clisp nich dabei wie bei sbcl)
 #+clisp   (load "/Users/matze/asdf/asdf.lisp")
