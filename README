@@ -1,0 +1,14 @@
+Matzes Lisp IRC Library Rewrite
+
+Distributed under the beerware-license. See LICENSE for details.
+
+Prerequisites:
+You will need matzlisp installed. Its ASDF installable so it shouldnt be a big deal.
+
+lisp-irc should run under any common-lisp implementation, however you will need 
+an implementation which matzlisp supports (sbcl and clisp for now)
+
+
+
+look at start.lisp, which starts the demobot, for details.
+
