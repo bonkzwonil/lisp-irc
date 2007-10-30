@@ -443,7 +443,9 @@
 
 ;; MULTITHREADED
 
-;sbcl only
+;sbcl only block begin
+#+sbcl (progn #+sb-thread (progn
+
 (defparameter *mutex* (sb-thread:make-mutex))
 
 (defun threadaction ()
@@ -473,6 +475,9 @@
 
 
 (start-thread)
+
+;; sbcl block ende
+))
 
 ;; LADEN UND SPEICHERN
 
