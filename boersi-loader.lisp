@@ -50,6 +50,9 @@
 ;; lets speedup cl-ppcre by 10k % (!) bug?
 (setq cl-ppcre::*use-bmh-matchers* nil)
 
+;;Ausserdem reichen 16-bit chars nun wirklich für die regexp --> speedup nochma ca 500% in clisp (64 bit chars)
+(setq cl-ppcre:*regex-char-code-limit* 16384)
+
 ;; RUN
 
 (format t "~%~%~%~%~%~%~%~%~%~%~%~%~%Yay! Im completely operational and all my systems  are functioning perfectly. ~%~%~%~%~%~%~%~%~%lets run the bot!~%~%~%~%~%~%~%~%~%~%~%~%~%~%~%~%~%~%~%~%~%~%")
