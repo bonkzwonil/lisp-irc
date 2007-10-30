@@ -99,7 +99,8 @@
 	      (arg3 (fourth (split-sequence:split-sequence #\Space (message-argument msg))))
 	      (arg4 (fifth (split-sequence:split-sequence #\Space (message-argument msg))))
 	      (arglist nil)
-	      (needs-caller (getf action :needs-caller)))
+	      (needs-caller (getf action :needs-caller))
+	      (needs-raw (getf action :needs-raw)))
 	  ;build arglist
 	  (if arg4 (push arg4 arglist))
 	  (if arg3 (push arg3 arglist))
@@ -124,7 +125,7 @@
 
 (defun send-action-result (irc target lines)
   (if (listp lines)
-      (mapcar #'(lambda (line) (sleep +senddelay+) (privmsg irc target line))
+      (mapcar #'(lambda (line)  (privmsg irc target line) (if (> (length line) 0) (sleep +senddelay+)))
 	      lines)
     (privmsg irc target lines)))
 

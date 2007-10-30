@@ -405,7 +405,7 @@
 			   (format nil "~a hat die Ausschüttung von ~a-Aktien veranlasst..." caller name)))
 	    "Neue Aktien an den markt bringen!. Usage: !neueaktie <name> <volumen> <angepeilter emissionskurs>")
 
-(add-aktion bot
+(add-action bot
 	    "^!neueereigniskarte [a-z]+ [\+\-][0-9]+\.[0-9] [\+\-][0-9]+\.[0-9] \"[^\"]+\"$"
 	    #'(lambda (aktienname min max text &key caller)
 		(with-nick (caller)
@@ -476,9 +476,9 @@
 
 ;; LADEN UND SPEICHERN
 
-(defmacro print-hash-table (table stream)
+(defun print-hash-table (table stream)
   ;FIXME Lisp implementation specific format?!
-  `(let ((*print-readably* T)) (print ,table ,stream)))
+  (let ((*print-readably* T)) (print table stream)))
 
 (defmacro save-world (stream)
   `(progn 
