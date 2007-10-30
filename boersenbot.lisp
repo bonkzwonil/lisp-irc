@@ -11,6 +11,12 @@
 
 
 
+(defvar *savepath* "/home/matze/bot.save")
+(defun savestate ()
+  (save *savepath*)
+  "Abgespeichert den Mist")
+
+
 ;; Utils
 
 (defun strip-nsi (nick)
@@ -485,11 +491,6 @@
   (with-open-file (s file :direction :output :if-does-not-exist :create :if-exists :overwrite) 
 		  (save-world s)))
 
-
-(defvar *savepath* "/home/matze/bot.save")
-(defun savestate ()
-  (save *savepath*)
-  "Abgespeichert den Mist")
 ;; Load is simply a lisp load as data file is readable lisp code!
 
 
