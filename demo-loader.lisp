@@ -8,7 +8,7 @@
 #+sbcl (progn #-sb-bsd-sockets (progn (format t "~%~%~%~%SBCL needs Socket Support!~%~%") (quit)))
 
 ; ASDF laden (bei clisp nich dabei wie bei sbcl)
-#+clisp   (load "/Users/matze/asdf/asdf.lisp")
+#+clisp   #-asdf(load "/Users/matze/asdf/asdf.lisp")
 
 ;; CLISP loading code
 #+clisp 
