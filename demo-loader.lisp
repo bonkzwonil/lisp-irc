@@ -31,8 +31,13 @@
 
 
 ;common shit
+;
+(defun load-and-compile (file)
+	(compile-file (concatenate 'string file ".lisp"))
+	(load file))
+
 
 ;irc lib
-(load "irc.lisp")
+(load-and-compile "irc")
 ;demobot
-(load "arrrbot.lisp")
+(load-and-compile "arrrbot")
