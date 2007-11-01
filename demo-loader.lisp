@@ -3,7 +3,7 @@
 
 #+clisp (format t "~%~%~%~%~%~%~%~%~%~%~%~%Remember to adjust paths in demo.lisp!~%~%~%~%~%~%~%~%~%~%~%~%~%")
 
-#-unicode (format t "~%~%~%~%~%~%~%~%~%~%~%~WARNING:  Kein Unicode! Das wird Probleme geben....~%~%~%~%~%~%~%~%~%~%~%~") 
+#-unicode (format t "~%~%~%~%~%~%~%~%~%~%~%~%WARNING:  Kein Unicode! Das wird Probleme geben....~%~%~%~%~%~%~%~%~%~%~%~%") 
 
 #+sbcl (progn #-sb-bsd-sockets (progn (format t "~%~%~%~%SBCL needs Socket Support!~%~%") (quit)))
 
