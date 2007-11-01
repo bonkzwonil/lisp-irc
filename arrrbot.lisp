@@ -2,7 +2,10 @@
 ;; $Id: arrrbot.lisp,v 1.2 2007/09/19 19:18:47 matze Exp $
 ;(in-package :irc)
 
-(defparameter irc (irc::make-irc-connection "irc.he.net" "grogsau"))
+(defvar runbot t)
+
+(if runbot
+    (defparameter irc (irc::make-irc-connection "irc.he.net" "grogsau")))
 
 
 (defun echo-hook (msg)
@@ -24,7 +27,6 @@
 		     "Was willste , Dreckschrubba??"))
 
 
-(irc::sendcolcmd irc "PRIVMSG" "#juelich" "Du kämpfst wie ein dummer Bauer")
 
 (defparameter *beleidigungen*
   '(
@@ -153,8 +155,12 @@
 	(irc::sendcolcmd (irc::irc-connection msg) "PRIVMSG" "#juelich" (arr)))
 
     ))
-  
 
+(format t "Runbot: ~a~%" runbot)
+
+  
+(if runbot
+(progn 
 (irc::add-hook irc "PRIVMSG" #'arr-hook)
 (irc::add-hook irc "PRIVMSG" #'parieren-hook)
 (irc::add-hook irc "PRIVMSG" #'parieren2-hook)
@@ -163,14 +169,12 @@
 (irc::add-code-hook irc::RPL_ENDOFMOTD #'(lambda (msg) (irc::join (irc::irc-connection msg) "#juelich")))
 
 (irc::add-code-hook irc::ERR_CANNOTSENDTOCHANNEL #'(lambda (msg) (irc::join (irc::irc-connection msg) (irc::source msg))))
-   
+   ))
 
 
-(irc::join irc "#juelich")
-
-
-(irc::irc-read-loop irc)
+(if runbot
+    (irc::irc-read-loop irc))
 
 ;; (matzlisp::close-socket (irc::socket irc))
-;;(irc::close-irc-connection irc)
+;; (irc::close-irc-connection irc)
 

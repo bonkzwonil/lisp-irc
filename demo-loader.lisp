@@ -22,7 +22,7 @@
    (asdf:oos 'asdf:load-op 'split-sequence))
 
 ;SBCL loading code 
-#+sbcl 
+
 #+sbcl	 (format t "loading in SBCL~%~%")
 #+sbcl	 (require 'asdf)
 #+sbcl	 (require 'matzlisp)
