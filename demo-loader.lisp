@@ -36,7 +36,6 @@
 	(compile-file (concatenate 'string file ".lisp"))
 	(load file))
 
-
 ;irc lib
 (load-and-compile "irc")
 ;demobot
