@@ -3,9 +3,9 @@
 
 #+clisp (format t "~%~%~%~%~%~%~%~%~%~%~%~%Remember to adjust paths in demo.lisp!~%~%~%~%~%~%~%~%~%~%~%~%~%")
 
-#-unicode (format t "~%~%~%~%~%~%~%~%~%~%~%~WARNING:  Kein Unicode! Das wird Probleme geben....~%~%~%~%~%~%~%~%~%~%~%~") 
+#-unicode (format t "~%~%~%~%~%~%~%~%~%~%~%~%WARNING:  Kein Unicode! Das wird Probleme geben....~%~%~%~%~%~%~%~%~%~%~%~%") 
 
-#+sbcl (progn #-sb-bsd-sockets (progn (format t "~%~%~%~%SBCL needs Socket Support!~%~%") (quit)))
+;#+sbcl (progn #-sb-bsd-sockets (progn (format t "~%~%~%~%SBCL needs Socket Support!~%~%") (quit)))
 
 ; ASDF laden (bei clisp nich dabei wie bei sbcl)
 #+clisp   #-asdf(load "/Users/matze/asdf/asdf.lisp")
@@ -22,11 +22,10 @@
    (asdf:oos 'asdf:load-op 'split-sequence))
 
 ;SBCL loading code 
-#+sbcl (progn
-	 (format t "loading in SBCL~%~%")
-	 (require 'asdf)
-	 (require 'matzlisp)
-	 (require 'split-sequence))
+#+sbcl (format t "loading in SBCL~%~%")
+#+sbcl	 (require 'asdf)
+#+sbcl	 (require 'matzlisp)
+#+sbcl	 (require 'split-sequence)
 	 
 
 
@@ -56,5 +55,7 @@
 ;; RUN
 
 (format t "~%~%~%~%~%~%~%~%~%~%~%~%~%Yay! Im completely operational and all my systems  are functioning perfectly. ~%~%~%~%~%~%~%~%~%lets run the bot!~%~%~%~%~%~%~%~%~%~%~%~%~%~%~%~%~%~%~%~%~%~%")
+(in-package :irc)
+(load "bot.save")
 
 (irc::run-irc irc::bot)
