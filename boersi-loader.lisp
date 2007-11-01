@@ -56,6 +56,8 @@
 
 (format t "~%~%~%~%~%~%~%~%~%~%~%~%~%Yay! Im completely operational and all my systems  are functioning perfectly. ~%~%~%~%~%~%~%~%~%lets run the bot!~%~%~%~%~%~%~%~%~%~%~%~%~%~%~%~%~%~%~%~%~%~%")
 (in-package :irc)
-(load "bot.save")
+
+;format ist sbcl only momentan
+#+sbcl (load "bot.save")
 
 (irc::run-irc irc::bot)
