@@ -1,6 +1,6 @@
 ;; Demo Bot von Matzes geilem irc bot library lisp systen
 ;; $Id: arrrbot.lisp,v 1.2 2007/09/19 19:18:47 matze Exp $
-(in-package :irc)
+;(in-package :irc)
 
 (defparameter irc (irc::make-irc-connection "irc.he.net" "grogsau"))
 
