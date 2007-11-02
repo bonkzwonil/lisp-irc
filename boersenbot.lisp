@@ -443,41 +443,41 @@
 
 ;; MULTITHREADED
 
-;sbcl only block begin
-#+sbcl (progn #+sb-thread (progn
+;; ;sbcl only block begin
+;; #+sbcl (progn #+sb-thread (progn
 
-(defparameter *mutex* (sb-thread:make-mutex))
+;; (defparameter *mutex* (sb-thread:make-mutex))
 
-(defun threadaction ()
-  ;;FIXME adjust channel
-  (privmsg bot "#juelich" "!!! ACHTUNG: !!! Noch 10 Sekunden bis zu den Börsennachrichten!")
-  (sleep 10)
-  (if (> (random 3) 0) 
-      (privmsg bot "#juelich" "Keine besonderen, börsenrelevanten Nachrichten diesmal...")
-    (progn
-      (let ((lst nil))
-	(loop for key being the hash-keys of *aktien* do (push key lst))
-	(privmsg bot "#juelich" (ereigniskarte (nth (random (length lst)) lst)))))))
+;; (defun threadaction ()
+;;   ;;FIXME adjust channel
+;;   (privmsg bot "#juelich" "!!! ACHTUNG: !!! Noch 10 Sekunden bis zu den Börsennachrichten!")
+;;   (sleep 10)
+;;   (if (> (random 3) 0) 
+;;       (privmsg bot "#juelich" "Keine besonderen, börsenrelevanten Nachrichten diesmal...")
+;;     (progn
+;;       (let ((lst nil))
+;; 	(loop for key being the hash-keys of *aktien* do (push key lst))
+;; 	(privmsg bot "#juelich" (ereigniskarte (nth (random (length lst)) lst)))))))
 
 
-(defparameter *thread* nil)
-(defun start-thread ()
-  (setq *thread*
-	(progn 
-	  (if (and *thread* (sb-thread:thread-alive-p *thread*)) (sb-thread:destroy-thread *thread*))
-	  (sb-thread:make-thread #'(lambda ()
-				     (loop
-				      (format t "Thread neue stunde~%")
-				      (threadaction)
-				      (sleep 3590)
-				      ))))))
+;; (defparameter *thread* nil)
+;; (defun start-thread ()
+;;   (setq *thread*
+;; 	(progn 
+;; 	  (if (and *thread* (sb-thread:thread-alive-p *thread*)) (sb-thread:destroy-thread *thread*))
+;; 	  (sb-thread:make-thread #'(lambda ()
+;; 				     (loop
+;; 				      (format t "Thread neue stunde~%")
+;; 				      (threadaction)
+;; 				      (sleep 3590)
+;; 				      ))))))
       
 
 
-(start-thread)
+;; (start-thread)
 
-;; sbcl block ende
-))
+;; ;; sbcl block ende
+;; ))
 
 ;; LADEN UND SPEICHERN
 
