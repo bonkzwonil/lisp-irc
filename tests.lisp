@@ -1,6 +1,9 @@
 ; Tests
 
 ; Syntax checks
+(format t "~%~%~%~%~%lisp-irc Testsuite running on ~a ~a ~%~%"
+	(lisp-implementation-type)
+	(lisp-implementation-version))
 
 (defvar runbot nil)
 
