@@ -9,6 +9,9 @@
 
 ; ASDF laden (bei clisp nich dabei wie bei sbcl)
 #+clisp   #-asdf(load "/Users/matze/asdf/asdf.lisp")
+#+sbcl	 (require 'asdf)
+
+(push "." asdf:*central-registry*)
 
 ;; CLISP loading code
 #+clisp 
@@ -24,7 +27,6 @@
 ;SBCL loading code 
 
 #+sbcl	 (format t "loading in SBCL~%~%")
-#+sbcl	 (require 'asdf)
 #+sbcl	 (require 'matzlisp)
 #+sbcl	 (require 'split-sequence)
 	 

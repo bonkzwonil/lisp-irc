@@ -29,4 +29,4 @@
 (asdf-install:install 'cl-ppcre)
 (asdf-install:install 'split-sequence)
 
-
+(quit)
