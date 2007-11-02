@@ -14,7 +14,9 @@
 	(with-output-to-string (*standard-output*)
 	  (load "demo-loader.lisp"))
 	)
-    (error (e) (progn (format t "KACK") (quit 1)))))
+    (error (e) (progn (format t "KACK: ~A~%" e) 
+		      #+clisp (quit 1)
+		      #+sbcl (quit :unix-status 1)))))
 
 (format t "Geilo es scheint keine errors gegeben zu haben")
 (quit)
