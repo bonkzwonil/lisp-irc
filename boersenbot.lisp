@@ -11,9 +11,9 @@
 
 
 
-(defvar *savepath* "/home/matze/bot.save")
+(defvar *savepath* "savefile")
 (defun savestate ()
-  (save *savepath*)
+  (save-world *savepath*)
   "Abgespeichert den Mist")
 
 
@@ -485,20 +485,19 @@
   ;FIXME Lisp implementation specific format?!
   (let ((*print-readably* T)) (print table stream)))
 
-(defmacro save-world (stream)
-  `(progn 
-     (format ,stream "(defparameter *aktien* ") (print-hash-table *aktien* ,stream) (format ,stream ")~%~%")
-     (format ,stream "(defparameter *depots* ")      (print-hash-table *depots* ,stream) (format ,stream ")~%~%")
-     (format ,stream "(defparameter *probs* ")      (print-hash-table *probs* ,stream) (format ,stream ")~%~%")
-     (format ,stream "(defparameter *ereignisse* (quote ")      (print-hash-table *ereignisse* ,stream) (format ,stream "))~%~%")))
 
-(defun save (file)
-  (with-open-file (s file :direction :output :if-does-not-exist :create :if-exists :overwrite) 
-		  (save-world s)))
+ 
 
-;; Load is simply a lisp load as data file is readable lisp code!
+(defun save-world (filename)
+  (cl-store:store (list *aktien* *depots* *probs* *ereignisse*) filename))
 
-
+(defun load-world (filename)
+  (let ((lst
+	 (cl-store:restore filename)))
+    (defparameter *aktien* (first lst))
+    (defparameter *depots* (second lst))
+    (defparameter *probs* (third lst))
+    (defparameter *ereignisse* (fourth lst))))
 
 
 (defun resume-bot (bot) 

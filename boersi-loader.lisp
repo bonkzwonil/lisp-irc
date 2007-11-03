@@ -10,6 +10,9 @@
 
 ; ASDF laden (bei clisp nich dabei wie bei sbcl)
 #+clisp   #-asdf(load "/Users/matze/asdf/asdf.lisp")
+#+sbcl (require 'asdf)
+
+(push "." asdf:*central-registry*)
 
 ;; CLISP loading code
 #+clisp 
@@ -20,13 +23,14 @@
 ;matzlisp laden
    (asdf:oos 'asdf:load-op 'matzlisp) ; (require 'matzlisp) in sbcl
 ; split-sequence laden
-   (asdf:oos 'asdf:load-op 'split-sequence))
+   (asdf:oos 'asdf:load-op 'split-sequence)
+   (asdf:oos 'asdf:load-op 'cl-store))
 
 ;SBCL loading code 
 #+sbcl (format t "loading in SBCL~%~%")
-#+sbcl	 (require 'asdf)
 #+sbcl	 (require 'matzlisp)
 #+sbcl	 (require 'split-sequence)
+#+sbcl	 (require 'cl-store)
 	 
 
 
@@ -58,7 +62,9 @@
 (format t "~%~%~%~%~%~%~%~%~%~%~%~%~%Yay! Im completely operational and all my systems  are functioning perfectly. ~%~%~%~%~%~%~%~%~%lets run the bot!~%~%~%~%~%~%~%~%~%~%~%~%~%~%~%~%~%~%~%~%~%~%")
 (in-package :irc)
 
-;format ist sbcl only momentan
-#+sbcl (load "bot.save")
+;cl-store file format
+(irc::load-world "savefile")
+
+
 
 (irc::run-irc irc::bot)

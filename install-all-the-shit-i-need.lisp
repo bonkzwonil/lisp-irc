@@ -27,6 +27,7 @@
 	 
 
 (asdf-install:install 'cl-ppcre)
+(asdf-install:install 'cl-store)
 (asdf-install:install 'split-sequence)
 
 (quit)
