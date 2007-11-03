@@ -481,9 +481,13 @@
 
 ;; LADEN UND SPEICHERN
 
-(defun print-hash-table (table stream)
-  ;FIXME Lisp implementation specific format?!
-  (let ((*print-readably* T)) (print table stream)))
+(defun hash-table-to-string (table)
+  (with-output-to-string (stream)
+  (format stream "(let ((hashtable (make-hash-table :test 'equalp)))")
+  (maphash #'(lambda (key value)
+	       (format stream "(setf (gethash ~w hashtable) ~w)" key value))
+	   table)
+  (format stream ")")))
 
 
  
