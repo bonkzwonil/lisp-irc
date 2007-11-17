@@ -3,14 +3,34 @@ Matzes Lisp IRC Library Rewrite 3
 
 Distributed under the beerware-license. See LICENSE for details.
 
-Prerequisites:
-You will need matzlisp installed. Its ASDF installable so it shouldnt be a big deal.
+
+* Prerequisites:
+
+matzlisp, cl-ppcre, split-sequence
+
+You will need to have matzlisp installed. Its ASDF installable so it shouldnt 
+be a big deal.
+
+You can get matzlisp via darcs:
+	darcs get http://www.matzsoft.de/repo/matzlisp
 
 lisp-irc should run under any common-lisp implementation, however you will need 
 an implementation which matzlisp supports (sbcl, LispWorks and clisp for now)
 
 
 
-look at clisp-demo.lisp, which shows starting the demobot in clisp for example.
+* Install:
+
+lisp-irc is ASDF-installable, so install instructions are easy:
+ o Make a symlink to newirc.asd from your ASDF systems directory. 
+	e.g: ln -s /path/to/lisp-irc/newirc.asd ~/.sbcl/systems/newirc.asd
+ o Load it via asdf
+	e.g: (asdf:oos 'asdf:load-op 'newirc) in most lisp implementations
+	or simply (require 'newirc) in sbcl
+
+
+
+
+look at newdemobot.lisp, for an example bot.
 
 remember to darcs send patches....
