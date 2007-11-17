@@ -1,39 +1,42 @@
 ;;$Id: newdemobot.lisp,v 1.7 2007/10/07 18:55:05 matze Exp $
-;; Neuer Demobot für newirc
+;; Neuer Demobot für newirc 3
 ;; As Simple as 1, 2, 3
 
 (in-package :irc)
 
 ; 1. set bot parameters
-(defparameter demobot (irc::make-irc :server "irc.he.net" :port 6666 :nick "lispfreak" :user "freak"))
+(defparameter demobot (make-instance 'ircbot :nick "freak99" :username "drFreak" ))
 
-(defparameter +botversion+ "$Id: newdemobot.lisp,v 1.7 2007/10/07 18:55:05 matze Exp $")
+(defparameter +botversion+ "newdemobot for newirc V3  V0.9")
 
 ; 2. define some hooks
 
-(defun pong-hook (irc msg)
-  (pong irc (message-argument msg)))
+(defun pong-hook (bot msg)
+  (pong bot (argument msg)))
 
-(add-command-hook demobot "PING" #'pong-hook)
+(add-hook demobot "PING" #'pong-hook)
 
-(defun echo-hook (irc msg)
-  (privmsg irc (message-source msg) (reverse (message-argument msg))))
+(defun echo-hook (bot msg)
+  (privmsg bot (source msg) (reverse (argument msg))))
 
-(add-command-hook demobot "PRIVMSG" #'echo-hook)
+(add-hook demobot "PRIVMSG" #'echo-hook)
 
 ; and Actions 
 
-(add-action demobot "^!lispversion$" #'lisp-implementation-version "Displays the Version of the Lisp Runtime")
-(add-action demobot "^!nmalkack [0-9][0-9]$" #'(lambda (n) 
-				     (with-output-to-string (*standard-output*)
-					(loop for i from 0 to (parse-integer n) do
-					      (princ "kack")))) "Displays n times \"kack\"")
-(add-action demobot "^!greet$" #'(lambda (&key (caller nil)) (format nil "Hallo ~a!" caller)) "Greets you"  :needs-caller T)
+(add-action demobot "!lispversion" #'lisp-implementation-version "Displays the Version of the Lisp Runtime")
+(add-action demobot "!nmalkack" #'(lambda (n) 
+				    (let ((n (parse-integer n)))
+				    (if (> n 100) 
+					"Zuviel kack"
+				      (with-output-to-string (*standard-output*)	
+							     (loop for i from 1 to n do
+								   (princ "kack")))))) "Displays n times \"kack\"")
+(add-action demobot "!greet" #'(lambda (&key caller) (format nil "Hallo ~a!" caller)) "Greets you"  :needs-caller T)
 
 			
 (defparameter +helpheader+
   (list 
-   "First Bot written with Matzes newirc2 lisp library"
+   "First Bot written with Matzes newirc3 lisp library"
    +botversion+
    "irclib version: "
    +version+
@@ -48,8 +51,9 @@
 	     (irc-actions demobot))
     (append +helpheader+ lst)))
 
-(add-action demobot "^!help$" #'help-action "Help" :private T)
+;(add-action demobot "!help" #'help-action "Help" :private T)
 
 ; 3. Run the bot!
-;; (run-irc demobot)
+;;(run demobot "irc.he.net")
 
+; (join demobot "#juelich")
