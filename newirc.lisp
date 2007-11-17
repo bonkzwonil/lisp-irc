@@ -10,17 +10,19 @@
   (:use :cl 
 	:matzlisp
 	:split-sequence)
-  (:export :make-irc
-	   :make-message
-	   :add-code-hook
-	   :add-command-hook
+  (:export :run
+	   :ircbot
+	   :ircmessage
+	   :bot-action
+	   :add-action
+	   :remove-action
+	   :add-hook
 	   :ping :pong
 	   :privmsg
 	   :join :part
 	   :op :deop :voice :devoice
 	   :ban :unban
 	   :kick))
-	   
 	   
    
 
