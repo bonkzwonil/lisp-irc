@@ -197,8 +197,9 @@
 (defmethod get-action ((bot ircbot) (msg ircmessage))
   (let ((actions (slot-value bot 'actions)))
     (loop for prefix being the hash-keys of actions do
-	  (if (search prefix (argument msg))
-	      (return-from get-action (gethash prefix actions))))))
+	  (let ((sr (search prefix (argument msg))))
+	    (if (and (numberp sr) (= sr 0))
+		(return-from get-action (gethash prefix actions)))))))
 
 
 (defmethod invoke-action ((bot ircbot) (msg ircmessage))

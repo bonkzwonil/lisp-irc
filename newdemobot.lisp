@@ -32,7 +32,6 @@
 							     (loop for i from 1 to n do
 								   (princ "kack")))))) "Displays n times \"kack\"")
 (add-action demobot "!greet" #'(lambda (&key caller) (format nil "Hallo ~a!" caller)) "Greets you"  :needs-caller T)
-
 			
 (defparameter +helpheader+
   (list 
