@@ -95,7 +95,8 @@
 
 (defmethod sendcmd ((bot ircbot) cmd arg1 &optional arg2)
   (if arg2
-      (sendline bot (format nil "~a ~a :~a" cmd arg1 arg2))
+      (if (> (length arg2) 0)
+	  (sendline bot (format nil "~a ~a :~a" cmd arg1 arg2)))
     (sendline bot (format nil "~a ~a" cmd arg1))))
 
 ;; a nice commandcreator without bloat
@@ -192,6 +193,7 @@
 (defmethod remove-action ((bot ircbot) (prefix string))
   "löscht alle Aktionen mit prefix"
   (remhash prefix (slot-value bot 'actions)))
+
 
   
 (defmethod get-action ((bot ircbot) (msg ircmessage))
