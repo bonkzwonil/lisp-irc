@@ -95,24 +95,29 @@
 
 (defmethod sendcmd ((bot ircbot) cmd arg1 &optional arg2)
   (if arg2
-      (if (> (length arg2) 0)
-	  (sendline bot (format nil "~a ~a :~a" cmd arg1 arg2)))
-    (if (> (length arg1) 0)
-	(sendline bot (format nil "~a ~a" cmd arg1)))))
+      (sendline bot (format nil "~a ~a :~a" cmd arg1 arg2))
+    (sendline bot (format nil "~a ~a" cmd arg1))))
+
 
 ;; a nice commandcreator without bloat
 (defun make-cmd (cmd)
-  `(defun ,cmd (bot arg &optional (arg2 nil))
-     (sendcmd bot (string ',cmd) arg (if arg2 arg2))))
+  `(defun ,cmd (bot arg arg2)
+     (sendcmd bot (string ',cmd) arg arg2)))
+
+(defun make-cmd2 (cmd)
+  `(defun ,cmd (bot arg)
+     (sendcmd bot (string ',cmd) arg  arg2)))
        
 
 ;;Build a bunch of commands 
 
 (mapcar #'(lambda (fun) (eval fun)) 
 	(mapcar #'make-cmd 
-		'(join part kick ban op deop voice devoice privmsg ping pong) ))
+		'(join part kick ban op deop voice devoice ping pong) ))
 
-
+(defun privmsg (bot target text)
+  (if (> (length text) 0)
+      (sendcmd bot "PRIVMSG" target text)))
 
 
 (defparameter +senddelay+ 0.5)
