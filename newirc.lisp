@@ -101,12 +101,9 @@
 
 ;; a nice commandcreator without bloat
 (defun make-cmd (cmd)
-  `(defun ,cmd (bot arg arg2)
+  `(defun ,cmd (bot arg &optional arg2)
      (sendcmd bot (string ',cmd) arg arg2)))
 
-(defun make-cmd2 (cmd)
-  `(defun ,cmd (bot arg)
-     (sendcmd bot (string ',cmd) arg  arg2)))
        
 
 ;;Build a bunch of commands 
