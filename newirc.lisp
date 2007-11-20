@@ -221,7 +221,7 @@
 		  (apply fun arglist) ;; Apply the function
 		  (error (e) ;; catch errors
 			 (format t "ERROR: ~a~%" e)
-			 e))))
+			 (format nil "ERROR: ~a" e)))))
 	    (send-lines 
 	     bot 
 	     (if (private? action) 
