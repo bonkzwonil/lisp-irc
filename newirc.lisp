@@ -97,7 +97,8 @@
   (if arg2
       (if (> (length arg2) 0)
 	  (sendline bot (format nil "~a ~a :~a" cmd arg1 arg2)))
-    (sendline bot (format nil "~a ~a" cmd arg1))))
+    (if (> (length arg1) 0)
+	(sendline bot (format nil "~a ~a" cmd arg1)))))
 
 ;; a nice commandcreator without bloat
 (defun make-cmd (cmd)
