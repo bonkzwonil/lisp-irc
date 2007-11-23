@@ -121,12 +121,12 @@
 
 (defmethod send-lines ((bot ircbot) (target string) lines)
   (if (listp lines)
-      (mapcar #'(lambda (line)  
-		  (privmsg bot target line) 
-		  (if (> (length line) 0) 
-		      (sleep +senddelay+)))
-	      lines)
-    (privmsg bot target lines)))
+      (loop for line in lines do  
+	   (if (> (length line) 0) 
+	       (progn 
+		 (sleep +senddelay+)
+		 (privmsg bot target line)))) 
+      (privmsg bot target lines)))
 
     
 
