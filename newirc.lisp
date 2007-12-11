@@ -178,10 +178,13 @@
     :reader hidden?)
    (needs-raw
     :initarg :needs-raw
-    :reader needs-raw?)))
+    :reader needs-raw?)
+   (splice
+    :initarg :splice
+    :reader splice?)))
    
 
-(defun add-action (bot prefix function doc &key (private nil) (needs-caller nil) (hidden nil) (needs-raw nil))
+(defun add-action (bot prefix function doc &key (private nil) (needs-caller nil) (hidden nil) (needs-raw nil) (splice T))
   "Erstellt für bot eine Aktion die auf prefix hört und function ausführt. bei private=T wird die antwort privat verschickt."
   (setf (gethash prefix (slot-value bot 'actions))
 	(make-instance 'bot-action 
@@ -190,7 +193,8 @@
 		       :private private
 		       :needs-caller needs-caller
 		       :hidden hidden
-		       :needs-raw needs-raw)))
+		       :needs-raw needs-raw
+		       :splice splice)))
   
 
 (defmethod remove-action ((bot ircbot) (prefix string))
@@ -206,12 +210,19 @@
 	    (if (and (numberp sr) (= sr 0))
 		(return-from get-action (gethash prefix actions)))))))
 
+(defun strip-first-word (string)
+  (let ((pos (search " " string)))
+    (if pos
+	(subseq string (+ pos 1))
+	string)))
 
 (defmethod invoke-action ((bot ircbot) (msg ircmessage))
   (let ((action (get-action bot msg)))
     (if action
 	(let* ((fun (slot-value action 'function))
 	       (arglist (cdr (split-sequence:split-sequence #\Space (argument msg)))))
+	  (if (not (splice? action))
+	      (setf arglist (list (strip-first-word (argument msg)))))
 	  (if (needs-caller? action)
 	      (setf arglist (append arglist (list :caller (source msg)))))
 	  (if (needs-raw? action)
