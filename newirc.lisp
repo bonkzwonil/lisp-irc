@@ -91,7 +91,11 @@
 ;; Basic IO
 
 (defmethod sendline ((bot ircbot) (line string))
-  (matzlisp::telnet-send (telnet-connection bot) line))
+  (let ((line (first (split-sequence:split-sequence #\Newline line))))
+    (when (> (length line) 300)
+      (setf line (subseq line 0 300))) 
+    (if (> (length line) 1)
+	(matzlisp::telnet-send (telnet-connection bot) line))))
 
 (defmethod sendcmd ((bot ircbot) cmd arg1 &optional arg2)
   (if arg2
