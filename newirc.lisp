@@ -154,10 +154,17 @@
   (setf (slot-value bot 'commandhooks)
 	(cons (list :command command :fun fun) (slot-value bot 'commandhooks))))
 
+;; null hook
+(defmethod add-catch-all-hook ((bot ircbot) (fun function))
+(setf (slot-value bot 'commandhooks)
+	(cons (list :fun fun) (slot-value bot 'commandhooks))))
+  
 (defmethod invoke-command-hooks ((bot ircbot) (msg ircmessage))
   (mapcar 
    #'(lambda (hook) 
-       (if (string= (command msg) (getf hook :command)) 
+       (if (or 
+	    (string= (command msg) (getf hook :command))
+	    (null (getf hook :command)))
 	   (funcall (getf hook :fun) bot msg)))
    (slot-value bot 'commandhooks)))
 
