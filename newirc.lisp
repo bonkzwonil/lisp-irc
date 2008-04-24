@@ -372,5 +372,29 @@ rest of the given `string', if any."
     msg))
 
 
+;; init stuff
+
+(defun build-help-action ( bot )
+  #'(lambda (&optional junk)
+     (loop for trigger being the hash-keys of (slot-value bot 'actions) collect
+	  (format nil "~a : ~a" trigger (doc bot trigger)))))
+
+
+(defmethod initialize-instance :after ((bot ircbot) &key)
+  "a private constructor which does nothing more than creating a hash table and prefilling it with the !help action"
+  (add-action bot 
+	      "!help" 
+	      (build-help-action bot) 
+	      "Helps you out (lists all defined action-triggers)"
+	      :private T
+	      :needs-caller nil
+	      :hidden nil
+	      :needs-raw nil
+	      :splice nil))
+
+
+	  
+
+
 
 
