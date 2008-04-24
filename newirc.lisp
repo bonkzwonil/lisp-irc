@@ -58,7 +58,9 @@
    (commandhooks
     :initform nil)
    (actions
-    :initform (make-hash-table :test #'equal))))
+    :initform (make-hash-table :test 'equalp))))
+
+	  
 
 (defclass ircmessage ()
   ((code 
@@ -227,11 +229,41 @@
 	(subseq string (+ pos 1))
 	string)))
 
+;;geklaut von araneida
+(defun split-quoted (str &optional max (ws '(#\Space #\Tab)))
+  "Split `string' along whitespace as defined by the sequence `ws',
+but ignoring whitespace in quoted strings.  Whitespace which causes a
+split is elided from the result.  The whole string will be split,
+unless `max' is a non-negative integer, in which case the string will
+be split into `max' tokens at most, the last one containing the whole
+rest of the given `string', if any."
+  (do ((i 0 (1+ i))
+       (words '())
+       (split-allowed-p t)
+       (word '()))
+      ((>= i (length str))
+       (reverse (cons (coerce (reverse word) 'string) words)))
+    (if (eql (elt str i) #\")
+        (setf split-allowed-p (not split-allowed-p)))
+    (if (eql (elt str i) #\\)
+        (setf i (1+ i)))                ;advance past escape chars
+    (if (and split-allowed-p
+             (or (not max) (< (length words) (1- max)))
+             (member (elt str i) ws))
+        (progn
+          (setf words (cons (coerce (reverse word) 'string) words))
+          (setf word '()))
+      (setf word (cons (elt str i) word)))))
+
+	    
+(defun trim (str &optional (charbag '(#\Space #\Tab #\")))
+  (string-trim charbag str))
+
 (defmethod invoke-action ((bot ircbot) (msg ircmessage))
   (let ((action (get-action bot msg)))
     (if action
 	(let* ((fun (slot-value action 'function))
-	       (arglist (cdr (split-sequence:split-sequence #\Space (argument msg)))))
+	       (arglist (cdr (mapcar #'trim (split-quoted (argument msg))))))
 	  (if (not (splice? action))
 	      (setf arglist (list (strip-first-word (argument msg)))))
 	  (if (needs-caller? action)
