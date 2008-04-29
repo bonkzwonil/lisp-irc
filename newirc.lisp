@@ -354,11 +354,12 @@ rest of the given `string', if any."
 			 :command (second seq)
 			 :argument (string-trim 
 				       (string #\Return) 
-				       (string-trim 
-					":" 
+				       (subseq 
+					
 					(string-list-concat 
 					 (cdddr seq) 
-					 " ")))
+					 " ")
+					1))
 			 :code (irc-parseint (second seq))
 			 :target (third seq)
 			 :raw line))
@@ -369,9 +370,7 @@ rest of the given `string', if any."
 	  (setf (slot-value msg 'argument) (command msg))
 	  (setf (slot-value msg 'command) (source msg))
 	  (setf (slot-value msg 'source) nil)))
-    msg))
-
-
+    
 ;; init stuff
 
 (defun build-help-action ( bot )
