@@ -344,6 +344,13 @@ rest of the given `string', if any."
 (defun debugircmsg (msg)
   (format nil "source: ~a, command: ~a, code : ~a, arg: ~a" (source msg) (command msg) (code msg) (argument msg)))
 
+(defun trim-first (char string)
+  (if (= (length string) 0)
+      string
+      (if (equal (aref string 0) char)
+	  (subseq string 1)
+	  string)))
+
 (defun parsemessage (line)
   (let* ((seq 
 	  (split-sequence:split-sequence #\Space line))
