@@ -361,12 +361,11 @@ rest of the given `string', if any."
 			 :command (second seq)
 			 :argument (string-trim 
 				       (string #\Return) 
-				       (subseq 
+				       (trim-first #\:
+						   (string-list-concat 
+						    (cdddr seq) 
+						    " ")))
 					
-					(string-list-concat 
-					 (cdddr seq) 
-					 " ")
-					1))
 			 :code (irc-parseint (second seq))
 			 :target (third seq)
 			 :raw line))
@@ -377,6 +376,7 @@ rest of the given `string', if any."
 	  (setf (slot-value msg 'argument) (command msg))
 	  (setf (slot-value msg 'command) (source msg))
 	  (setf (slot-value msg 'source) nil)))
+    msg))
     
 ;; init stuff
 
