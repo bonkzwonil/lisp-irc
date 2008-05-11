@@ -259,6 +259,14 @@ rest of the given `string', if any."
 (defun trim (str &optional (charbag '(#\Space #\Tab #\")))
   (string-trim charbag str))
 
+
+(defun ensure-function (thing)
+  (typecase thing
+    (function thing)
+    (symbol (symbol-function thing))))
+
+(defvar *senderrors* nil)
+
 (defmethod invoke-action ((bot ircbot) (msg ircmessage))
   (let ((action (get-action bot msg)))
     (if action
@@ -272,10 +280,11 @@ rest of the given `string', if any."
 	      (setf arglist (append arglist (list :raw (raw msg)))))
 	  (let ((result
 		 (handler-case 
-		  (apply fun arglist) ;; Apply the function
+		  (apply (ensure-function fun) arglist) ;; Apply the function
 		  (error (e) ;; catch errors
+		    (if *senderrors*
 			 (format t "ERROR: ~a~%" e)
-			 (format nil "ERROR: ~a" e)))))
+			 (format nil "ERROR: ~a" e))))))
 	    (send-lines 
 	     bot 
 	     (if (private? action) 
