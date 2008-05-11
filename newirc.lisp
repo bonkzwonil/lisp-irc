@@ -283,8 +283,8 @@ rest of the given `string', if any."
 		  (apply (ensure-function fun) arglist) ;; Apply the function
 		  (error (e) ;; catch errors
 		    (if *senderrors*
-			 (format t "ERROR: ~a~%" e)
-			 (format nil "ERROR: ~a" e))))))
+			 (format nil "ERROR: ~a~%" e)
+			 (format nil "Usage: ~a" (slot-value action 'doc)))))))
 	    (send-lines 
 	     bot 
 	     (if (private? action) 
