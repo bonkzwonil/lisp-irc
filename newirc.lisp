@@ -267,11 +267,15 @@ rest of the given `string', if any."
 
 (defvar *senderrors* nil)
 
+(defun emptystring? (s)
+  (= 0 (length s)))
+
 (defmethod invoke-action ((bot ircbot) (msg ircmessage))
   (let ((action (get-action bot msg)))
     (if action
 	(let* ((fun (slot-value action 'function))
-	       (arglist (cdr (mapcar #'trim (split-quoted (argument msg))))))
+	       (arglist (cdr (remove-if #'emptystring? 
+					(mapcar #'trim (split-quoted (argument msg)))))))
 	  (if (not (splice? action))
 	      (setf arglist (list (strip-first-word (argument msg)))))
 	  (if (needs-caller? action)
@@ -284,7 +288,9 @@ rest of the given `string', if any."
 		  (error (e) ;; catch errors
 		    (if *senderrors*
 			 (format nil "ERROR: ~a~%" e)
-			 (format nil "Usage: ~a" (slot-value action 'doc)))))))
+			 (progn 
+			   (format nil "Usage: ~a" (slot-value action 'doc))
+			   (format t "ERROR: ~a~%" e)))))))
 	    (send-lines 
 	     bot 
 	     (if (private? action) 
