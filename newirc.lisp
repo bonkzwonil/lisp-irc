@@ -219,8 +219,8 @@
 (defmethod get-action ((bot ircbot) (msg ircmessage))
   (let ((actions (slot-value bot 'actions)))
     (loop for prefix being the hash-keys of actions do
-	  (let ((sr (search prefix (argument msg))))
-	    (if (and (numberp sr) (= sr 0))
+	  (let ((tokens (split-sequence:split-sequence #\Space (argument msg))))
+	    (if (equalp (first tokens) prefix)
 		(return-from get-action (gethash prefix actions)))))))
 
 (defun strip-first-word (string)
@@ -271,7 +271,7 @@ rest of the given `string', if any."
   (= 0 (length s)))
 
 (defmethod invoke-action ((bot ircbot) (msg ircmessage))
-  (let ((action (get-action bot msg)))
+  (let* ((action (get-action bot msg)))
     (if action
 	(let* ((fun (slot-value action 'function))
 	       (arglist (cdr (remove-if #'emptystring? 
@@ -305,6 +305,7 @@ rest of the given `string', if any."
 ;; Top handler
 
 (defmethod handle-line ((bot ircbot) (line string))
+  (format t "handle-line    : \"~a\" ~%" line)
   (handle bot (parsemessage line)))
 
 
@@ -367,7 +368,8 @@ rest of the given `string', if any."
 	  string)))
 
 (defun parsemessage (line)
-  (let* ((seq 
+  (let* ((line (string-trim '(#\Space #\Return) line))
+	 (seq 
 	  (split-sequence:split-sequence #\Space line))
 	 
 	 (msg
