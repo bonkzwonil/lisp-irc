@@ -1,5 +1,5 @@
 ;; IRC Library Rewrite 3
-;; C 2007 Matzo
+;; C 2007,2008 Matzo
 
 
 
@@ -30,7 +30,7 @@
 
 (in-package :irc)
 
-(defparameter +version+ "3rd Rewrite Version 0.8") 
+(defparameter +version+ "3rd Rewrite Version 0.9") 
 
 ;; Codes		      
 (defconstant RPL_ENDOFMOTD 376)
@@ -326,7 +326,17 @@ rest of the given `string', if any."
     (setf (slot-value bot 'telnet-connection) connection))
   (matzlisp:run-telnet (telnet-connection bot)))
 
-
+(defmethod build-connector ((bot ircbot) servers)
+  (make-instance 'matzlisp::connector 
+		 :hosts servers 
+		 :handler #'(lambda (line) 
+			      (handle-line bot line))
+		 :connection-change-handler #'(lambda (connection)
+						(setf (slot-value bot 'telnet-connection) connection))
+		 :Initlines (list
+			     (format nil "NICK ~a" (nick bot))
+			     (format nil "USER ~a localhost.localdomain ~a :~a" (nick bot) (username bot) (nick bot)))))
+			     
   
   
 
