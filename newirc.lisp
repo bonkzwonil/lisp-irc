@@ -123,7 +123,7 @@
       (sendcmd bot "PRIVMSG" target text)))
 
 
-(defparameter +senddelay+ 0.5)
+(defparameter +senddelay+ 0.7)
 
 (defmethod send-lines ((bot ircbot) (target string) lines)
   (if (listp lines)
