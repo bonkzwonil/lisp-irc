@@ -7,7 +7,7 @@
 
 (defparameter +botversion+ "$Id: boersenbot.lisp,v 1.10 2007/10/11 11:37:20 matze Exp $")
 
-(defparameter +password+ "wurstw4sser")
+(defparameter +password+ "wurstw4sser99")
 
 
 

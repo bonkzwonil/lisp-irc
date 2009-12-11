@@ -330,7 +330,17 @@ rest of the given `string', if any."
 	   (format nil "NICK ~a" (nick bot))
 	   (format nil "USER ~a localhost.localdomain ~a :~a" (nick bot) (username bot) (nick bot))))))
     (setf (slot-value bot 'telnet-connection) connection))
-  (matzlisp:run-telnet (telnet-connection bot)))
+  (mainloop bot))
+  ;(matzlisp:run-telnet (telnet-connection bot)))
+
+(defmethod run-timer-hoks ((bot ircbot))
+  )
+
+(defmethod mainloop ((bot ircbot))
+  (loop
+     ;;poll
+     (matzlisp::handle-telnet-line-non-blocking (telnet-connection bot))
+     (run-timer-hooks bot)))
 
 (defmethod build-connector ((bot ircbot) servers)
   (make-instance 'matzlisp::connector 
@@ -418,7 +428,7 @@ rest of the given `string', if any."
      (loop for trigger being the hash-keys of (slot-value bot 'actions) collect
 	  (format nil "~a : ~a" trigger (doc bot trigger)))))
 
-
+#|
 (defmethod initialize-instance :after ((bot ircbot) &key)
   "a private constructor which does nothing more than creating a hash table and prefilling it with the !help action"
   (add-action bot 
@@ -431,7 +441,7 @@ rest of the given `string', if any."
 	      :needs-raw nil
 	      :splice nil))
 
-
+|#
 	  
 
 

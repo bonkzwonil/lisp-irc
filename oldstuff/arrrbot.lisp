@@ -5,7 +5,7 @@
 (defvar runbot t)
 
 (if runbot
-    (defparameter irc (irc::make-irc-connection "irc.he.net" "grogsau")))
+    (defparameter irc (irc::make-irc-connection "irc.efnet.ch" "grogsau")))
 
 
 (defun echo-hook (msg)
