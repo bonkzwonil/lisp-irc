@@ -84,10 +84,15 @@
 
 
 (defmethod handle ((bot ircbot) (msg ircmessage))
-  (invoke-code-hooks bot (code msg))
-  (invoke-command-hooks bot msg)
-  (invoke-action bot msg))
-
+  (handler-case 
+      (progn
+	(invoke-code-hooks bot (code msg))
+	(invoke-command-hooks bot msg)
+	(invoke-action bot msg))
+    (condition  (c)
+		   (format t "****~%Something evil happened, while trying to handle message:~%~a~%CONDITION: ~a~%****~%"
+			   (raw msg)
+			  c))))
 
 
 ;; Basic IO
@@ -98,6 +103,7 @@
       (setf line (subseq line 0 300))) 
     (if (> (length line) 1)
 	(matzlisp::telnet-send (telnet-connection bot) line))))
+
 
 (defmethod sendcmd ((bot ircbot) cmd arg1 &optional arg2)
   (if arg2
@@ -120,7 +126,7 @@
 
 (defun privmsg (bot target text)
   (if (> (length text) 0)
-      (sendcmd bot "PRIVMSG" target text)))
+      (sendcmd bot "PRIVMSG" target (format nil "~a" text))))
 
 
 (defparameter +senddelay+ 0.7)
@@ -214,6 +220,8 @@
   "löscht alle Aktionen mit prefix"
   (remhash prefix (slot-value bot 'actions)))
 
+(defmethod action-exist-p ((bot ircbot) (prefix string))
+  (gethash prefix (slot-value bot 'actions)))
 
   
 (defmethod get-action ((bot ircbot) (msg ircmessage))
@@ -299,13 +307,11 @@ rest of the given `string', if any."
 		   (source msg)
 		 (target msg)))
 	     result))))))
-      
 		   
 
 ;; Top handler
 
 (defmethod handle-line ((bot ircbot) (line string))
-  (format t "handle-line    : \"~a\" ~%" line)
   (handle bot (parsemessage line)))
 
 
