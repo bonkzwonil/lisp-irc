@@ -11,8 +11,9 @@ matzlisp, cl-ppcre, split-sequence
 You will need to have matzlisp installed. Its ASDF installable so it shouldnt 
 be a big deal.
 
-You can get matzlisp via darcs:
-	darcs get http://www.matzsoft.de/repo/matzlisp
+You can get matzlisp via git:
+	git clone https://github.com/bonkzwonil/matzlisp.git
+	
 
 lisp-irc should run under any common-lisp implementation, however you will need 
 an implementation which matzlisp supports (sbcl, LispWorks and clisp for now)
@@ -33,4 +34,4 @@ lisp-irc is ASDF-installable, so install instructions are easy:
 
 look at newdemobot.lisp, for an example bot.
 
-remember to darcs send patches....
+remember to -darcs- git send patches....
