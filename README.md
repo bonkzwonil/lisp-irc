@@ -1,4 +1,4 @@
-== Matzes Lisp IRC Library Rewrite 3
+## Matzes Lisp IRC Library Rewrite 3
 (C) 2007 by Mathias Menzel-Nielsen <matze@mausland.de>
 
 Distributed under the beerware-license. See LICENSE for details.
