@@ -400,9 +400,10 @@
 	    #'(lambda (name volumen kurs &key caller)
 		(with-nick (caller)
 			   (if (gethash name *aktien*)
-			       (return "Diese Aktie gibt es schon!"))
-			   (create-aktie name (* (randfaktor 0.1) (read-from-string kurs)) (parse-integer volumen))
-			   (format nil "~a hat die Ausschüttung von ~a-Aktien veranlasst..." caller name)))
+			       "Diese Aktie gibt es schon!"
+			     (progn
+			       (create-aktie name (* (randfaktor 0.1) (read-from-string kurs)) (parse-integer volumen))
+			       (format nil "~a hat die Ausschüttung von ~a-Aktien veranlasst..." caller name)))))
 	    "Neue Aktien an den markt bringen!. Usage: !neueaktie <name> <volumen> <angepeilter emissionskurs>")
 
 (add-action bot

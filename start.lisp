@@ -1,5 +1,0 @@
-(require 'asdf)
-(require 'matzlisp)
-(compile-file "newirc.lisp")
-(load "newirc")
-(load "demobot")
